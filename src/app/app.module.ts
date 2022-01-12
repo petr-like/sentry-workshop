@@ -30,7 +30,7 @@ Sentry.init({
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    RouterModule.forRoot([{ path: "", component: AppComponent }]),
+    RouterModule.forRoot([{ path: "", component: AppComponent }], { relativeLinkResolution: 'legacy' }),
   ],
   providers: [
     {
