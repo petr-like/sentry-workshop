@@ -1,27 +1,39 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { APP_INITIALIZER, ErrorHandler, NgModule } from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { HttpClientModule } from "@angular/common/http";
-import { Router, RouterModule } from "@angular/router";
-import { AppComponent } from "./app.component";
-import { environment } from "./../environments/environment.version";
-import { GlobalErrorHandler } from "./global-error-handler/global-error-handler";
+import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { Router, RouterModule } from '@angular/router';
+import { AppComponent } from './app.component';
+import { environment } from './../environments/environment.version';
+import { GlobalErrorHandler } from './global-error-handler/global-error-handler';
 
-import * as Sentry from "@sentry/angular";
-import { Integrations } from "@sentry/tracing";
-import { ToastrModule } from "ngx-toastr";
+import * as Sentry from '@sentry/angular';
+import { Integrations } from '@sentry/tracing';
+import { ToastrModule } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
+import { MyError } from './global-error-handler/error';
 
 Sentry.init({
-  dsn: "https://c8e54fe7ff9a42ef801489ffb53a4b79@o445693.ingest.sentry.io/5876619",
+  dsn: 'https://c8e54fe7ff9a42ef801489ffb53a4b79@o445693.ingest.sentry.io/5876619',
   release: environment.release,
   integrations: [
     new Integrations.BrowserTracing({
-      tracingOrigins: ["localhost", "https://api.yourserver.io"],
+      tracingOrigins: ['localhost', 'https://api.yourserver.io'],
       routingInstrumentation: Sentry.routingInstrumentation,
     }),
   ],
   tracesSampleRate: 1.0,
+  beforeSend(event, hint): any {
+    console.log('event: ', event);
+    if (
+      hint?.originalException instanceof MyError ||
+      (hint?.originalException as any)?.config?.baseURL.includes('trongrid')
+    ) {
+      return null; // Don't send this event to Sentry
+    }
+    console.log('BeforeSend to Sentry');
+    return event;
+  },
 });
 
 @NgModule({
@@ -33,8 +45,8 @@ Sentry.init({
     ToastrModule,
     FormsModule,
     HttpClientModule,
-    RouterModule.forRoot([{ path: "", component: AppComponent }], {
-      relativeLinkResolution: "legacy",
+    RouterModule.forRoot([{ path: '', component: AppComponent }], {
+      relativeLinkResolution: 'legacy',
     }),
   ],
   providers: [
