@@ -1,6 +1,6 @@
 const fs = require('fs');
 // Configure Angular `environment.ts` file path
-const targetPath = './src/environments/environment.prod.ts';
+const targetPath = './src/environments/environment.version.ts';
 
 // Load node modules
 const colors = require('colors');
@@ -12,7 +12,7 @@ const envConfigFile = `export const environment = {
 };
 `;
 
-console.log(colors.magenta('The file `environment.prod.ts` will be written with the following content: \n'));
+console.log(colors.magenta('The file `environment.version.ts` will be written with the following content: \n'));
 
 console.log(colors.grey(envConfigFile));
 fs.writeFile(targetPath, envConfigFile, function (err) {

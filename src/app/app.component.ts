@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-// import * as Sentry from "@sentry/browser";
+import * as Sentry from "@sentry/browser";
+import { MyError } from './global-error-handler/error';
 
 @Component({
   selector: 'app-root',
@@ -22,9 +23,7 @@ export class AppComponent {
 
   handleSubmit() {
     this.currentUser = this.textValue;
-    // Sentry.configureScope(scope => {
-    //   scope.setUser({email: this.currentUser});
-    // });
+    Sentry.setUser({ email: this.currentUser });
   }
 
   malformed() {
@@ -47,6 +46,10 @@ export class AppComponent {
 
   rangeError() {
     throw new RangeError('Parameter must be between 1 and 100');
+  }
+
+  myError() {
+    throw new MyError('Custom error from any place in our code without send to sentry');
   }
 }
 

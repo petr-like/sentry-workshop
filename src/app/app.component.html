@@ -8,34 +8,50 @@
     <div class="center">
       <form>
         <div class="form-group">
-          <input type="text" [(ngModel)]="textValue" type="email" class="form-control" [ngModelOptions]="{standalone: true}" placeholder="Enter email">
+          <input
+            type="text"
+            [(ngModel)]="textValue"
+            type="email"
+            [ngModelOptions]="{ standalone: true }"
+            class="form-control"
+            placeholder="Enter email"
+          />
         </div>
-        <button type="submit" (click)="this.handleSubmit()" class="btn btn-primary">Submit</button>
+        <button type="submit" (click)="handleSubmit()" class="btn btn-primary">
+          Submit
+        </button>
       </form>
     </div>
 
-    <h2>Hi {{currentUser ? currentUser : "Guest"}}</h2>
+    <h2>Hi {{ currentUser ? currentUser : "Guest" }}</h2>
 
-    <ul class="center list-group" [ngStyle]="{ 'color': color }" (click)="this.changeColor()">
+    <ul
+      class="center list-group"
+      [ngStyle]="{ color: color }"
+      (click)="changeColor()"
+    >
       <li class="list-group-item list-group-item-danger">
         <h3>ERRORS</h3>
       </li>
-      <li class="list-group-item" (click)="this.notAFunctionError()">
+      <li class="list-group-item" (click)="notAFunctionError()">
         <h3>TypeError</h3>
         <p>obj.attributeInvalid is not a function</p>
       </li>
-      <li class="list-group-item" (click)="this.uriError()">
+      <li class="list-group-item" (click)="uriError()">
         <h3>URIError</h3>
-        <p>URI malformed
-        </p>
+        <p>URI malformed</p>
       </li>
-      <li class="list-group-item" (click)="this.syntaxError()">
+      <li class="list-group-item" (click)="syntaxError()">
         <h3>SyntaxError</h3>
         <p>Unexpected identifier</p>
       </li>
-      <li class="list-group-item" (click)="this.rangeError()">
+      <li class="list-group-item" (click)="rangeError()">
         <h3>RangeError</h3>
         <p>Parameter must be between 1 and 100</p>
+      </li>
+      <li class="list-group-item" (click)="myError()">
+        <h3>MyError</h3>
+        <p>Custom error from any place in our code without catch error</p>
       </li>
     </ul>
   </div>
